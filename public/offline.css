@@ -1,0 +1,30 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100vh;
+  background-color: #f0f0f0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+.offline-wrapper {
+  max-width: 500px;
+}
+
+.offline-wrapper h1 {
+  font-size: 2rem;
+  color: #333;
+}
+
+.offline-wrapper p {
+  color: #666;
+  margin-top: 1rem;
+}
+
+.offline-wrapper img {
+  max-width: 100px;
+  margin: 1rem 0;
+}
