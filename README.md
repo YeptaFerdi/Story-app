@@ -6,19 +6,25 @@ Aplikasi adalah aplikasi berbasis web yang memungkinkan pengguna untuk mencari d
 
 ## 🎨 Desain dan Penggunaan
 
-Aplikasi ini dirancang untuk memberikan pengalaman pengguna yang sederhana dan intuitif. Setiap story peliharaan akan ditampilkan dengan gambar, nama, spesies, dan deskripsi. Lokasi story peliharaan akan ditunjukkan pada peta dengan menggunakan Leaflet, dan pengguna dapat berinteraksi dengan marker peta untuk melihat detail lebih lanjut.
+Aplikasi dirancang dengan UI yang ramah pengguna dan mobile-friendly. Pengguna dapat:
+- Melihat daftar story peliharaan
+- Melihat lokasi story di peta
+- Menambahkan cerita baru
+- Mengakses fitur dengan akun terautentikasi
 
 ---
 
-## 📦 Fitur
+## 📦 Fitur Utama
 
-✅ Menampilkan daftar story peliharaan yang tersedia untuk diadopsi
-✅ Menampilkan peta interaktif dengan marker dan popup menggunakan Leaflet
-✅ Menambahkan story peliharaan baru dengan data gambar, nama, spesies, deskripsi, dan lokasi
-✅ Halaman login dan registrasi untuk autentikasi pengguna
-✅ Menampilkan halaman detail story dengan informasi lengkap dan peta lokasi
-✅ Desain responsif yang ramah perangkat mobile
-✅ Penggunaan Model-View-Presenter (MVP) untuk pengelolaan data dan tampilan aplikasi
+✅ Daftar story peliharaan dengan gambar, nama, spesies, deskripsi  
+✅ Peta interaktif (Leaflet) dengan marker dan popup lokasi  
+✅ Tambah story baru + lokasi pada peta  
+✅ Login & Register pengguna (dengan validasi)  
+✅ Detail story lengkap + navigasi peta  
+✅ Desain responsif (mobile-first)  
+✅ Arsitektur MVP (Model-View-Presenter)  
+✅ Notifikasi push & service worker  
+✅ Offline-first (tersedia halaman offline)
 
 ---
 
@@ -27,35 +33,36 @@ Aplikasi ini dirancang untuk memberikan pengalaman pengguna yang sederhana dan i
 ```plaintext
 story-day/
 ├── asset/
-│   └── icons/
+│   ├── favicon.png
+│   ├── icons/
 │   └── screenshots/
 ├── public/
-│   └── manifest.json
-│   └── offline.css
-│   └── offline.html
+│   ├── manifest.json
+│   ├── offline.css
+│   ├── offline.html
 │   └── sw.js
-├── src
-│   └──component/
-│   │   └── Spinner.js
+├── src/
+│   ├── component/
+│   │   ├── Spinner.js
 │   │   └── StoryForm.js
 │   ├── model/
+│   │   ├── AuthModel.js
 │   │   └── StoryModel.js
-│   │   └── AuthModel.js
 │   ├── presenter/
+│   │   ├── AuthPresenter.js
 │   │   └── StoryPresenter.js
-│   │   └── AuthPresenter.js
 │   ├── view/
-│   │   └── AddView.js
-│   │   └── HomeView.js
+│   │   ├── AddView.js
+│   │   ├── HomeView.js
+│   │   ├── LoginView.js
+│   │   ├── RegisterView.js
 │   │   └── MystoryView.js
-│   │   └── LoginView.js
-│   │   └── RegisterView.js
 │   ├── scripts/
 │   │   └── loader.js
 │   ├── utils/
-│   │   └── SessionHelper.js
-│   │   └── camera.js
-│   │   └── story-db.js
+│   │   ├── SessionHelper.js
+│   │   ├── camera.js
+│   │   ├── story-db.js
 │   │   └── web-push-init.js
 │   ├── index.js
 │   ├── router.js
@@ -73,7 +80,6 @@ story-day/
 ├── webpack.dev.js
 └── webpack.prod.js
 ```
-
 ### 📌 Keterangan:
 
 -`asset/icons/` → Menyimpan gambar logo -`component/` → Berisi komponen-komponen UI, seperti spinner untuk loading -`model/` → Berisi model data untuk story peliharaan dan autentikasi -`presenter/` → Berisi presenter untuk pengelolaan data dan komunikasi antara model dan view -`view/` → Berisi view untuk halaman utama, login, dan registrasi -`index.html` → Halaman HTML yang menjalankan aplikasi - -`package.json` → Konfigurasi proyek dan dependensi
