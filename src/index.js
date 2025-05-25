@@ -7,6 +7,7 @@ import L from 'leaflet';
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 
+// Fix default Leaflet icon paths
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconUrl: 'leaflet/images/marker-icon.png',
@@ -76,16 +77,20 @@ function setupSkipLink() {
   }
 }
 
-// Register service worker & init push
+// Register Service Worker and initialize features
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker
-      .register('./sw.js')
-      .then((reg) => {
-        console.log('✅ Service Worker registered:', reg.scope);
-        initPush(); // pastikan hanya dipanggil setelah SW aktif
-      })
-      .catch((err) => console.error('❌ Service Worker failed:', err));
+    if (!navigator.serviceWorker.controller) {
+      navigator.serviceWorker
+        .register('./sw.js')
+        .then((reg) => {
+          console.log('✅ Service Worker registered:', reg.scope);
+          initPush(); // Hanya dijalankan setelah SW aktif
+        })
+        .catch((err) =>
+          console.error('❌ Service Worker registration failed:', err)
+        );
+    }
   });
 }
 
