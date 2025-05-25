@@ -50,36 +50,10 @@ module.exports = {
         },
       ],
     }),
-    new WorkboxPlugin.GenerateSW({
+    new WorkboxPlugin.InjectManifest({
+      swSrc: './src/sw.js',
       swDest: 'sw.js',
-      clientsClaim: true,
-      skipWaiting: true,
-      navigateFallback: '/offline.html', // ✅ fallback saat offline
-      runtimeCaching: [
-        {
-          urlPattern: /\.(?:png|jpg|jpeg|svg|gif|webp)$/,
-          handler: 'CacheFirst',
-          options: {
-            cacheName: 'images',
-            expiration: {
-              maxEntries: 60,
-              maxAgeSeconds: 30 * 24 * 60 * 60, // 30 hari
-            },
-          },
-        },
-        {
-          urlPattern: new RegExp('https://story-api.dicoding.dev'),
-          handler: 'NetworkFirst',
-          options: {
-            cacheName: 'api-cache',
-            networkTimeoutSeconds: 10,
-            expiration: {
-              maxEntries: 50,
-              maxAgeSeconds: 5 * 60,
-            },
-          },
-        },
-      ],
+      maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
     }),
   ],
   resolve: {

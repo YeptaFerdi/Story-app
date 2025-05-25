@@ -41,7 +41,6 @@ story-day/
 │   ├── manifest.json
 │   ├── offline.css
 │   ├── offline.html
-│   └── sw.js
 ├── src/
 │   ├── component/
 │   │   ├── Spinner.js
@@ -65,6 +64,7 @@ story-day/
 │   │   ├── camera.js
 │   │   ├── story-db.js
 │   │   └── web-push-init.js
+│   └── sw.js
 │   ├── index.js
 │   ├── router.js
 │   ├── add.css
