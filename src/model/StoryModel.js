@@ -33,7 +33,7 @@ export class StoryModel {
       }));
 
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(storys));
-      await Promise.all(storys.map(s => StoryDB.saveStory(s)));
+      await Promise.all(storys.map((s) => StoryDB.saveStory(s)));
 
       return storys;
     } catch (error) {

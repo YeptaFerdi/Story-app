@@ -32,6 +32,8 @@ async function loadPage(view) {
       return (await import('./view/HomeView.js')).HomeView;
     case 'add':
       return (await import('./view/AddView.js')).AddView;
+    case 'mystory':
+      return (await import('./view/MystoryView.js')).MystoryView;
     case 'login':
       return (await import('./view/LoginView.js')).LoginView;
     case 'register':

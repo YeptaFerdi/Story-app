@@ -32,44 +32,44 @@ export const Router = {
   },
 
   async renderView(hash, main) {
-  switch (hash) {
-    case '#/login':
-      main.innerHTML = await LoginView.render();
-      LoginView.afterRender();
-      break;
+    switch (hash) {
+      case '#/login':
+        main.innerHTML = await LoginView.render();
+        LoginView.afterRender();
+        break;
 
-    case '#/register':
-      main.innerHTML = await RegisterView.render();
-      RegisterView.afterRender();
-      break;
+      case '#/register':
+        main.innerHTML = await RegisterView.render();
+        RegisterView.afterRender();
+        break;
 
-    case '#/home':
-      if (!AuthModel.isLoggedIn()) return (location.hash = '#/login');
-      const homeView = new HomeView();
-      main.innerHTML = await homeView.render();
-      homeView.afterRender();
-      break;
+      case '#/home':
+        if (!AuthModel.isLoggedIn()) return (location.hash = '#/login');
+        const homeView = new HomeView();
+        main.innerHTML = await homeView.render();
+        homeView.afterRender();
+        break;
 
-    case '#/add':
-      if (!AuthModel.isLoggedIn()) return (location.hash = '#/login');
-      main.innerHTML = await AddView.render();
-      AddView.afterRender();
-      break;
+      case '#/add':
+        if (!AuthModel.isLoggedIn()) return (location.hash = '#/login');
+        main.innerHTML = await AddView.render();
+        AddView.afterRender();
+        break;
 
-    case '#/mystory':
-      main.innerHTML = await MystoryView.render();
-      MystoryView.afterRender();
-      break;
+      case '#/mystory':
+        main.innerHTML = await MystoryView.render();
+        MystoryView.afterRender();
+        break;
 
-    default:
-      main.innerHTML = `
+      default:
+        main.innerHTML = `
         <section style="padding: 2rem; text-align: center;">
           <h2>404 - Page Not Found</h2>
           <p>The page you are looking for does not exist.</p>
           <a href="#/home" style="display:inline-block;margin-top:1rem;">🔙 Back to Home</a>
         </section>
       `;
-      break;
+        break;
     }
-  }
+  },
 };

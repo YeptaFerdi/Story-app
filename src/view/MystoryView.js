@@ -23,7 +23,7 @@ export const MystoryView = {
 
     container.innerHTML = stories
       .map(
-      (story) => `
+        (story) => `
       <article class="story-card horizontal-card">
         <img src="${story.image || 'default.jpg'}" alt="Story Image" />
         <div class="story-content">
@@ -34,8 +34,8 @@ export const MystoryView = {
         </div>
       </article>
     `
-    )
-    .join('');
+      )
+      .join('');
 
     document.querySelectorAll('.delete-btn').forEach((btn) => {
       btn.addEventListener('click', async () => {
@@ -44,9 +44,11 @@ export const MystoryView = {
       });
     });
 
-    document.getElementById('clear-all-btn').addEventListener('click', async () => {
-      await StoryDB.clearAllStories();
-      this.afterRender();
-    });
+    document
+      .getElementById('clear-all-btn')
+      .addEventListener('click', async () => {
+        await StoryDB.clearAllStories();
+        this.afterRender();
+      });
   },
 };

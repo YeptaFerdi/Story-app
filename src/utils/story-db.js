@@ -43,7 +43,7 @@ export const StoryDB = {
     try {
       const db = await getDB();
       const stories = await db.getAll(STORE_NAME);
-      const localStories = stories.filter(s => s.isLocal);
+      const localStories = stories.filter((s) => s.isLocal);
       console.log('📥 Retrieved local stories only:', localStories);
       return localStories;
     } catch (e) {
@@ -72,4 +72,3 @@ export const StoryDB = {
     }
   },
 };
-

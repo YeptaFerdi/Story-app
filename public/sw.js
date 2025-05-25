@@ -56,4 +56,16 @@ self.addEventListener('fetch', (event) => {
       );
     })
   );
+  self.addEventListener('push', (event) => {
+    const data = event.data?.json() || {};
+
+    const title = data.title || 'New Story!';
+    const options = {
+      body: data.body || 'A new story is available. Check it out!',
+      icon: 'asset/icons/logo.png',
+      badge: 'asset/icons/logo.png',
+    };
+
+    event.waitUntil(self.registration.showNotification(title, options));
+  });
 });

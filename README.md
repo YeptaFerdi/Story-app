@@ -7,6 +7,7 @@ Aplikasi adalah aplikasi berbasis web yang memungkinkan pengguna untuk mencari d
 ## 🎨 Desain dan Penggunaan
 
 Aplikasi dirancang dengan UI yang ramah pengguna dan mobile-friendly. Pengguna dapat:
+
 - Melihat daftar story peliharaan
 - Melihat lokasi story di peta
 - Menambahkan cerita baru
@@ -80,6 +81,7 @@ story-day/
 ├── webpack.dev.js
 └── webpack.prod.js
 ```
+
 ### 📌 Keterangan:
 
 -`asset/icons/` → Menyimpan gambar logo -`component/` → Berisi komponen-komponen UI, seperti spinner untuk loading -`model/` → Berisi model data untuk story peliharaan dan autentikasi -`presenter/` → Berisi presenter untuk pengelolaan data dan komunikasi antara model dan view -`view/` → Berisi view untuk halaman utama, login, dan registrasi -`index.html` → Halaman HTML yang menjalankan aplikasi - -`package.json` → Konfigurasi proyek dan dependensi
@@ -108,4 +110,5 @@ npm start
 ✅ `npx serve --listen 9000 dist` : Menjalankan server HTTP pakai Servis Worker di port:9000
 
 ### LINK
+
 Link deployment ada di STUDENT.txt
