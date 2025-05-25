@@ -23,8 +23,8 @@ if (!self.define) {
     if (a[r]) return;
     let c = {};
     const o = (e) => i(e, r),
-      f = { module: { uri: r }, exports: c, require: o };
-    a[r] = Promise.all(n.map((e) => f[e] || o(e))).then((e) => (s(...e), c));
+      d = { module: { uri: r }, exports: c, require: o };
+    a[r] = Promise.all(n.map((e) => d[e] || o(e))).then((e) => (s(...e), c));
   };
 }
 define(['./workbox-e1b59a58'], function (e) {
@@ -93,7 +93,7 @@ define(['./workbox-e1b59a58'], function (e) {
           revision: '617fd376435e7230f7d7a2c482065b3f',
         },
         { url: 'main.3fbf1f536a39fc141964.css', revision: null },
-        { url: 'manifest.json', revision: 'b8b85c61f0b80b859d762010140e8ed8' },
+        { url: 'manifest.json', revision: '6b9f1da45bd509845ce4dc01e49ea6e9' },
         { url: 'offline.html', revision: '24ee57cff99ef03247f241518d7285d7' },
       ],
       {}

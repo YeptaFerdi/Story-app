@@ -3,7 +3,7 @@ const CACHE_NAME = 'storyday-cache-v1';
 const STATIC_ASSETS = [
   './',
   './index.html',
-  './offline.html', // 🔧 fallback offline
+  './offline.html',
   './manifest.json',
   './asset/favicon.png',
   './asset/icons/logo.png',
@@ -19,7 +19,8 @@ self.addEventListener('install', (event) => {
       for (const asset of STATIC_ASSETS) {
         try {
           const response = await fetch(asset);
-          if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+          if (!response.ok)
+            throw new Error(`HTTP error! status: ${response.status}`);
           await cache.put(asset, response);
           console.log('✅ Cached:', asset);
         } catch (err) {
@@ -34,9 +35,13 @@ self.addEventListener('install', (event) => {
 // Activate: Clean up old caches
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(keys.filter((k) => k !== CACHE_NAME).map((k) => caches.delete(k)))
-    )
+    caches
+      .keys()
+      .then((keys) =>
+        Promise.all(
+          keys.filter((k) => k !== CACHE_NAME).map((k) => caches.delete(k))
+        )
+      )
   );
   self.clients.claim();
 });

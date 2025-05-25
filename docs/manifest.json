@@ -6,6 +6,7 @@
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#4A90E2",
+  "offline_page": "offline.html",
   "icons": [
     {
       "src": "asset/favicon.png",
@@ -31,7 +32,7 @@
       "name": "Add Story",
       "short_name": "Add",
       "description": "Add your own story.",
-      "url": "/#/add",
+      "url": "./#/add",
       "icons": [
         {
           "src": "asset/icons/logo.png",
@@ -44,7 +45,7 @@
       "name": "Mystory List",
       "short_name": "MyStory",
       "description": "See your own story.",
-      "url": "/#/mystory",
+      "url": "./#/mystory",
       "icons": [
         {
           "src": "asset/icons/logo.png",
