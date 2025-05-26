@@ -4,14 +4,7 @@ import { precacheAndRoute } from 'workbox-precaching';
 import { registerRoute, setCatchHandler } from 'workbox-routing';
 import { NetworkFirst, CacheFirst } from 'workbox-strategies';
 
-// Precache dengan tambahan offline.html, offline.css, dan logo
-precacheAndRoute(
-  self.__WB_MANIFEST.concat([
-    { url: `${self.registration.scope}offline.html`, revision: '1' },
-    { url: `${self.registration.scope}offline.css`, revision: '1' },
-    { url: `${self.registration.scope}asset/icons/logo.png`, revision: '1' },
-  ])
-);
+precacheAndRoute(self.__WB_MANIFEST);
 
 // HTML: Network first
 registerRoute(
