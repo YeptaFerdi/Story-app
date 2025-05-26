@@ -6,7 +6,7 @@
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#4A90E2",
-  "offline_page": "offline.html",
+  "offline_page": "./offline.html",
   "icons": [
     {
       "src": "asset/favicon.png",
@@ -35,6 +35,11 @@
       "url": "./#/add",
       "icons": [
         {
+          "src": "asset/favicon.png",
+          "sizes": "32x32",
+          "type": "image/png"
+        },
+        {
           "src": "asset/icons/logo.png",
           "type": "image/png",
           "sizes": "512x512"
@@ -47,6 +52,11 @@
       "description": "See your own story.",
       "url": "./#/mystory",
       "icons": [
+        {
+          "src": "asset/favicon.png",
+          "sizes": "32x32",
+          "type": "image/png"
+        },
         {
           "src": "asset/icons/logo.png",
           "type": "image/png",

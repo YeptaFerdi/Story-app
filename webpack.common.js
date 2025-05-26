@@ -10,6 +10,7 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].[contenthash].js',
     clean: true,
+    publicPath: '/Story-app/', // <-- ganti '/Story-app/' sesuai subfoldermu
   },
   module: {
     rules: [

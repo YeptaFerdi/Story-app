@@ -4,10 +4,16 @@ import { precacheAndRoute } from 'workbox-precaching';
 import { registerRoute, setCatchHandler } from 'workbox-routing';
 import { NetworkFirst, CacheFirst } from 'workbox-strategies';
 
-// Precache semua file hasil build
-precacheAndRoute(self.__WB_MANIFEST);
+// Precache dengan tambahan offline.html, offline.css, dan logo
+precacheAndRoute(
+  self.__WB_MANIFEST.concat([
+    { url: `${self.registration.scope}offline.html`, revision: '1' },
+    { url: `${self.registration.scope}offline.css`, revision: '1' },
+    { url: `${self.registration.scope}asset/icons/logo.png`, revision: '1' },
+  ])
+);
 
-// HTML: Network first agar dapat konten terbaru
+// HTML: Network first
 registerRoute(
   ({ request }) => request.destination === 'document',
   new NetworkFirst()
@@ -28,11 +34,12 @@ registerRoute(
 );
 
 // Fallback offline untuk dokumen HTML
+const offlinePage = `${self.location.origin}${self.registration.scope}offline.html`;
+
 setCatchHandler(async ({ event }) => {
   if (event.request.destination === 'document') {
-    return caches.match('/offline.html');
+    return caches.match(offlinePage);
   }
-
   return Response.error();
 });
 
@@ -42,8 +49,8 @@ self.addEventListener('push', (event) => {
   const title = data.title || 'New Story!';
   const options = {
     body: data.body || 'A new story is available. Check it out!',
-    icon: 'asset/icons/logo.png',
-    badge: 'asset/icons/logo.png',
+    icon: `${self.registration.scope}asset/icons/logo.png`,
+    badge: `${self.registration.scope}asset/icons/logo.png`,
   };
 
   event.waitUntil(self.registration.showNotification(title, options));
