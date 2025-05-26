@@ -82,7 +82,7 @@ if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     if (!navigator.serviceWorker.controller) {
       navigator.serviceWorker
-        .register('/src/sw.js')
+        .register('/Story-app/sw.js')
         .then((reg) => {
           console.log('✅ Service Worker registered:', reg.scope);
           initPush(); // Hanya dijalankan setelah SW aktif
