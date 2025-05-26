@@ -1265,12 +1265,28 @@
       url: '/Story-app/asset/icons/logo.png',
     },
     {
-      revision: '1761f9fcebc645d134da6ebe67245d5c',
+      revision: '49464d290fb20f46d2b6ac0b9ad6feed',
       url: '/Story-app/asset/screenshots/home.png',
     },
     {
-      revision: 'ba0ee1da191e2012001b10de0bf35d44',
+      revision: '4e69ea574ddea051b25b1497e9136ab7',
       url: '/Story-app/asset/screenshots/home2.png',
+    },
+    {
+      revision: '39e9161a14388ca1b04fb80f88a56fd5',
+      url: '/Story-app/asset/screenshots/home3.png',
+    },
+    {
+      revision: 'e38853625ee6ee571b301e0ef8c87d7c',
+      url: '/Story-app/asset/screenshots/mobile.png',
+    },
+    {
+      revision: 'd7f904975d8a0651f4db67b1b7232d59',
+      url: '/Story-app/asset/screenshots/mobile2.png',
+    },
+    {
+      revision: 'dcb91a42d049f480b84485c8dba89d97',
+      url: '/Story-app/asset/screenshots/mobile3.png',
     },
     {
       revision: '4f0283c6ce28e888000e978e537a6a56',
@@ -1319,7 +1335,7 @@
     },
     { revision: null, url: '/Story-app/main.d36a62a1a90eaf209938.css' },
     {
-      revision: 'a0c429e1e3e4ecc45ffa3424317b85a5',
+      revision: 'd3c9829eb63dd43aeedcc5c25e852d3c',
       url: '/Story-app/manifest.json',
     },
     {

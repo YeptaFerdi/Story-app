@@ -21,16 +21,40 @@
   ],
   "screenshots": [
     {
-      "src": "asset/screenshots/home.png",
-      "sizes": "1920x1043",
+      "src": "asset/screenshots/mobile/mobile.png",
+      "sizes": "750x1208",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "asset/screenshots/mobile/mobile2.png",
+      "sizes": "750x1208",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "asset/screenshots/mobile/mobile3.png",
+      "sizes": "750x1208",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "asset/screenshots/home/home.png",
+      "sizes": "2048x1208",
       "type": "image/png",
       "form_factor": "wide"
     },
     {
-      "src": "asset/screenshots/home2.png",
-      "sizes": "1080x2280",
+      "src": "asset/screenshots/home/home2.png",
+      "sizes": "2048x1208",
       "type": "image/png",
-      "form_factor": "narrow"
+      "form_factor": "wide"
+    },
+    {
+      "src": "asset/screenshots/home/home3.png",
+      "sizes": "2048x1208",
+      "type": "image/png",
+      "form_factor": "wide"
     }
   ],
   "shortcuts": [
