@@ -34,7 +34,6 @@ Aplikasi dirancang dengan UI yang ramah pengguna dan mobile-friendly. Pengguna d
 ```plaintext
 story-day/
 ├── asset/
-│   ├── favicon.png
 │   ├── icons/
 │   └── screenshots/
 ├── public/
