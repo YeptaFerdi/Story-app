@@ -162,7 +162,7 @@ export const AddView = {
           reg.showNotification('🎉 Story added!', {
             body: 'Your story has been submitted successfully.',
             icon: './asset/icons/logo.png',
-            badge: './asset/favicon.png',
+            badge: './asset/icons/favicon.png',
             data: { url: '#/home' },
           });
         }

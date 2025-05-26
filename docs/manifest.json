@@ -9,7 +9,7 @@
   "offline_page": "./offline.html",
   "icons": [
     {
-      "src": "asset/favicon.png",
+      "src": "asset/icons/favicon.png",
       "sizes": "32x32",
       "type": "image/png"
     },
@@ -25,6 +25,12 @@
       "sizes": "1920x1043",
       "type": "image/png",
       "form_factor": "wide"
+    },
+    {
+      "src": "asset/screenshots/home2.png",
+      "sizes": "1080x2280",
+      "type": "image/png",
+      "form_factor": "narrow"
     }
   ],
   "shortcuts": [
@@ -35,7 +41,7 @@
       "url": "./#/add",
       "icons": [
         {
-          "src": "asset/favicon.png",
+          "src": "asset/icons/favicon.png",
           "sizes": "32x32",
           "type": "image/png"
         },
@@ -53,7 +59,7 @@
       "url": "./#/mystory",
       "icons": [
         {
-          "src": "asset/favicon.png",
+          "src": "asset/icons/favicon.png",
           "sizes": "32x32",
           "type": "image/png"
         },
