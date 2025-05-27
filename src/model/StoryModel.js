@@ -7,7 +7,7 @@ const LOCAL_STORAGE_KEY = 'cachedStories';
 export class StoryModel {
   // Ambil data dari API atau fallback ke cache (localStorage)
   static async getStorys() {
-    const token = AuthModel.getToken();
+  const token = AuthModel.getToken();
 
     try {
       const response = await fetch(`${BASE_API}/stories`, {
@@ -29,7 +29,7 @@ export class StoryModel {
           lat: story.lat || 0,
           lng: story.lon || 0,
         },
-        isLocal: false, // <- Tandai bukan hasil addStory
+        isLocal: false,
       }));
 
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(storys));
@@ -38,10 +38,19 @@ export class StoryModel {
       return storys;
     } catch (error) {
       console.error('Failed to fetch data from API:', error.message);
+
+      // Ambil dari IndexedDB sebagai fallback selain localStorage
+      const cachedFromDB = await StoryDB.getAllStories();
+      if (cachedFromDB.length > 0) {
+        return cachedFromDB;
+      }
+
+      // Kalau IndexedDB kosong, fallback ke localStorage
       const cached = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
       return cached;
     }
   }
+
 
   // Tambah story ke API, cache localStorage, dan IndexedDB
   static async addStory({ description, photo, lat, lon }) {
@@ -72,6 +81,7 @@ export class StoryModel {
         id: result.story?.id || Date.now(),
         description,
         image: '[uploaded]',
+        imageBlob: photo,
         uploader: 'You',
         createdAt: new Date().toISOString(),
         location: {
