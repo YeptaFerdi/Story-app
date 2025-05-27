@@ -51,7 +51,6 @@ export class StoryModel {
     }
   }
 
-
   // Tambah story ke API, cache localStorage, dan IndexedDB
   static async addStory({ description, photo, lat, lon }) {
     const token = AuthModel.getToken();
