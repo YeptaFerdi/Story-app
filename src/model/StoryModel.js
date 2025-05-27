@@ -7,7 +7,7 @@ const LOCAL_STORAGE_KEY = 'cachedStories';
 export class StoryModel {
   // Ambil data dari API atau fallback ke cache (localStorage)
   static async getStorys() {
-  const token = AuthModel.getToken();
+    const token = AuthModel.getToken();
 
     try {
       const response = await fetch(`${BASE_API}/stories`, {

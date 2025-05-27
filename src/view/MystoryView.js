@@ -13,72 +13,74 @@ export const MystoryView = {
   },
 
   async afterRender() {
-  const container = document.getElementById('story-list');
-  const stories = await StoryDB.getAllStories();
+    const container = document.getElementById('story-list');
+    const stories = await StoryDB.getAllStories();
 
-  if (!stories || stories.length === 0) {
-    container.innerHTML = '<p>No stories saved offline.</p>';
-    return;
-  }
-
-  container.innerHTML = ''; // Clear container dulu
-
-  stories.forEach((story) => {
-    const article = document.createElement('article');
-    article.className = 'story-card horizontal-card';
-
-    const img = document.createElement('img');
-    img.alt = 'Story photo';
-
-    if (story.imageBlob) {
-      const objectUrl = URL.createObjectURL(story.imageBlob);
-      img.src = objectUrl;
-
-      // Revoke URL setelah gambar selesai dimuat supaya tidak bocor memori
-      img.onload = () => URL.revokeObjectURL(objectUrl);
-    } else {
-      img.src = story.image; // fallback ke URL dari API
+    if (!stories || stories.length === 0) {
+      container.innerHTML = '<p>No stories saved offline.</p>';
+      return;
     }
 
-    const content = document.createElement('div');
-    content.className = 'story-content';
+    container.innerHTML = ''; // Clear container dulu
 
-    const desc = document.createElement('p');
-    desc.textContent = story.description;
+    stories.forEach((story) => {
+      const article = document.createElement('article');
+      article.className = 'story-card horizontal-card';
 
-    const uploader = document.createElement('p');
-    uploader.innerHTML = `<strong>Uploader:</strong> ${story.uploader}`;
+      const img = document.createElement('img');
+      img.alt = 'Story photo';
 
-    const date = document.createElement('p');
-    date.innerHTML = `<small>${new Date(story.createdAt).toLocaleString()}</small>`;
+      if (story.imageBlob) {
+        const objectUrl = URL.createObjectURL(story.imageBlob);
+        img.src = objectUrl;
 
-    const deleteBtn = document.createElement('button');
-    deleteBtn.className = 'delete-btn';
-    deleteBtn.textContent = '🗑 Delete';
-    deleteBtn.dataset.id = story.id;
+        // Revoke URL setelah gambar selesai dimuat supaya tidak bocor memori
+        img.onload = () => URL.revokeObjectURL(objectUrl);
+      } else {
+        img.src = story.image; // fallback ke URL dari API
+      }
 
-    deleteBtn.addEventListener('click', async () => {
-      await StoryDB.deleteStory(story.id);
-      this.afterRender();
+      const content = document.createElement('div');
+      content.className = 'story-content';
+
+      const desc = document.createElement('p');
+      desc.textContent = story.description;
+
+      const uploader = document.createElement('p');
+      uploader.innerHTML = `<strong>Uploader:</strong> ${story.uploader}`;
+
+      const date = document.createElement('p');
+      date.innerHTML = `<small>${new Date(
+        story.createdAt
+      ).toLocaleString()}</small>`;
+
+      const deleteBtn = document.createElement('button');
+      deleteBtn.className = 'delete-btn';
+      deleteBtn.textContent = '🗑 Delete';
+      deleteBtn.dataset.id = story.id;
+
+      deleteBtn.addEventListener('click', async () => {
+        await StoryDB.deleteStory(story.id);
+        this.afterRender();
+      });
+
+      content.appendChild(desc);
+      content.appendChild(uploader);
+      content.appendChild(date);
+      content.appendChild(deleteBtn);
+
+      article.appendChild(img);
+      article.appendChild(content);
+
+      container.appendChild(article);
     });
 
-    content.appendChild(desc);
-    content.appendChild(uploader);
-    content.appendChild(date);
-    content.appendChild(deleteBtn);
-
-    article.appendChild(img);
-    article.appendChild(content);
-
-    container.appendChild(article);
-  });
-
-  document
-    .getElementById('clear-all-btn')
-    .addEventListener('click', async () => {
-      await StoryDB.clearAllStories();
-      this.afterRender();
-    });
+    document
+      .getElementById('clear-all-btn')
+      .addEventListener('click', async () => {
+        await StoryDB.clearAllStories();
+        this.afterRender();
+      });
   },
 
   setupThemeToggle() {
@@ -96,5 +98,5 @@ export const MystoryView = {
 
   redirectToLogin() {
     location.hash = '#/login';
-  }
+  },
 };

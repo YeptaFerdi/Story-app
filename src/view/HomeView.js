@@ -33,20 +33,30 @@ export class HomeView {
 
   renderStorys(storys) {
     const storyList = storys
-      .map(
-        (story) => `
-          <div class="story-card" tabindex="0" aria-label="Story by ${
-            story.uploader
-          } on ${story.createdAt}">
-            <img src="${story.image}" alt="Story photo">
-            <p>${story.description}</p>
-            <p><strong>Uploader:</strong> ${story.uploader}</p>
-            <p><strong>Created:</strong> ${new Date(
-              story.createdAt
-            ).toLocaleString()}</p>
-          </div>
-        `
-      )
+      .map((story) => {
+        let imageUrl = story.image;
+
+        if (story.imageBlob) {
+          imageUrl = URL.createObjectURL(story.imageBlob);
+        }
+
+        const card = `
+        <div class="story-card" tabindex="0" aria-label="Story by ${
+          story.uploader
+        } on ${story.createdAt}">
+          <img src="${imageUrl}" alt="Story photo" onload="this.dataset.blobUrl && URL.revokeObjectURL(this.dataset.blobUrl)" data-blob-url="${
+          story.imageBlob ? imageUrl : ''
+        }">
+          <p>${story.description}</p>
+          <p><strong>Uploader:</strong> ${story.uploader}</p>
+          <p><strong>Created:</strong> ${new Date(
+            story.createdAt
+          ).toLocaleString()}</p>
+        </div>
+      `;
+
+        return card;
+      })
       .join('');
 
     const container = document.getElementById('story-list-container');
