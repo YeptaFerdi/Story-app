@@ -25,10 +25,10 @@ export const MystoryView = {
       .map(
         (story) => `
       <article class="story-card horizontal-card">
-        <img src="${story.image || 'default.jpg'}" alt="Story Image" />
+        <img src="${story.image}" alt="Story photo" />
         <div class="story-content">
-          <h3>${story.uploader || 'Anonim'}</h3>
           <p>${story.description}</p>
+          <p><strong>Uploader:</strong> ${story.uploader}</p>
           <p><small>${new Date(story.createdAt).toLocaleString()}</small></p>
           <button data-id="${story.id}" class="delete-btn">🗑 Delete</button>
         </div>
