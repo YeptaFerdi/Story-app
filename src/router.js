@@ -57,6 +57,7 @@ export const Router = {
         break;
 
       case '#/mystory':
+        if (!AuthModel.isLoggedIn()) return (location.hash = '#/login');
         main.innerHTML = await MystoryView.render();
         MystoryView.afterRender();
         break;

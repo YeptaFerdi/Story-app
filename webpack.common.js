@@ -49,6 +49,13 @@ module.exports = {
           from: path.resolve(__dirname, 'node_modules/leaflet/dist/images'),
           to: 'leaflet/images',
         },
+        {
+          from: path.resolve(
+            __dirname,
+            'node_modules/leaflet/dist/images/marker-icon-2x.png'
+          ),
+          to: 'leaflet/images/marker-icon-2x.png',
+        },
       ],
     }),
     new WorkboxPlugin.InjectManifest({
