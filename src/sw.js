@@ -1,22 +1,18 @@
-// sw.js — final versi dengan precache offline.html manual
+// sw.js — final untuk InjectManifest (Workbox)
 
-import { precacheAndRoute, precache } from 'workbox-precaching';
+import { precacheAndRoute } from 'workbox-precaching';
 import { registerRoute, setCatchHandler } from 'workbox-routing';
 import { NetworkFirst, CacheFirst } from 'workbox-strategies';
 
-// Precache seluruh manifest dari InjectManifest
 precacheAndRoute(self.__WB_MANIFEST);
 
-// Tambahkan offline.html secara eksplisit ke precache
-precache([{ url: 'offline.html', revision: null }]);
-
-// HTML documents → Network First
+// HTML: Network first
 registerRoute(
   ({ request }) => request.destination === 'document',
   new NetworkFirst()
 );
 
-// Gambar → Cache First
+// Gambar: Cache First
 registerRoute(
   ({ request }) => request.destination === 'image',
   new CacheFirst({
@@ -30,7 +26,7 @@ registerRoute(
   })
 );
 
-// Fallback jika offline
+// Fallback offline untuk dokumen HTML
 const offlinePage = `${self.location.origin}${self.registration.scope}offline.html`;
 
 setCatchHandler(async ({ event }) => {
@@ -40,7 +36,7 @@ setCatchHandler(async ({ event }) => {
   return Response.error();
 });
 
-// Push Notification handler
+// Push Notification
 self.addEventListener('push', (event) => {
   const data = event.data?.json() || {};
   const title = data.title || 'New Story!';
