@@ -16,12 +16,12 @@ export const MystoryView = {
     const container = document.getElementById('story-list');
     const stories = await StoryDB.getAllStories();
 
+    container.innerHTML = ''; // Kosongkan kontainer dulu
+
     if (!stories || stories.length === 0) {
       container.innerHTML = '<p>No stories saved offline.</p>';
       return;
     }
-
-    container.innerHTML = ''; // Clear container dulu
 
     stories.forEach((story) => {
       const article = document.createElement('article');
@@ -33,26 +33,21 @@ export const MystoryView = {
       if (story.imageBlob) {
         const objectUrl = URL.createObjectURL(story.imageBlob);
         img.src = objectUrl;
-
-        // Revoke URL setelah gambar selesai dimuat supaya tidak bocor memori
-        img.onload = () => URL.revokeObjectURL(objectUrl);
+        img.onload = () => URL.revokeObjectURL(objectUrl); // Hindari memory leak
+      } else if (story.image) {
+        img.src = story.image;
       } else {
-        img.src = story.image; // fallback ke URL dari API
+        img.src = 'fallback.jpg'; // Tambahan fallback opsional
       }
 
       const content = document.createElement('div');
       content.className = 'story-content';
 
-      const desc = document.createElement('p');
-      desc.textContent = story.description;
-
-      const uploader = document.createElement('p');
-      uploader.innerHTML = `<strong>Uploader:</strong> ${story.uploader}`;
-
-      const date = document.createElement('p');
-      date.innerHTML = `<small>${new Date(
-        story.createdAt
-      ).toLocaleString()}</small>`;
+      content.innerHTML = `
+        <p>${story.description}</p>
+        <p><strong>Uploader:</strong> ${story.uploader}</p>
+        <p><small>${new Date(story.createdAt).toLocaleString()}</small></p>
+      `;
 
       const deleteBtn = document.createElement('button');
       deleteBtn.className = 'delete-btn';
@@ -61,25 +56,20 @@ export const MystoryView = {
 
       deleteBtn.addEventListener('click', async () => {
         await StoryDB.deleteStory(story.id);
-        this.afterRender();
+        this.afterRender(); // Refresh ulang tampilan
       });
 
-      content.appendChild(desc);
-      content.appendChild(uploader);
-      content.appendChild(date);
       content.appendChild(deleteBtn);
-
       article.appendChild(img);
       article.appendChild(content);
-
       container.appendChild(article);
     });
 
     document
       .getElementById('clear-all-btn')
-      .addEventListener('click', async () => {
+      ?.addEventListener('click', async () => {
         await StoryDB.clearAllStories();
-        this.afterRender();
+        this.afterRender(); // Refresh ulang tampilan
       });
   },
 

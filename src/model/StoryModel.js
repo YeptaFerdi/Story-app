@@ -23,7 +23,7 @@ export class StoryModel {
         id: story.id,
         description: story.description || 'No Description',
         image: story.photoUrl,
-        imageBlob: null, 
+        imageBlob: null,
         uploader: story.name || 'Anonim',
         createdAt: story.createdAt || '',
         location: {
@@ -77,8 +77,8 @@ export class StoryModel {
       const newStory = {
         id: result.story?.id || Date.now(),
         description,
-        image: null,        
-        imageBlob: photo,    // Simpan blob agar bisa ditampilkan offline
+        image: null,
+        imageBlob: photo, // Simpan blob agar bisa ditampilkan offline
         uploader: 'You',
         createdAt: new Date().toISOString(),
         location: {
