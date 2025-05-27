@@ -100,7 +100,7 @@ export class HomeView {
     if (nav) {
       nav.innerHTML = `
         <a href="#/home" class="logo" aria-label="Beranda Story Day">
-          <img src="./asset/logo.png" alt="Logo StoryDay" width="40" height="40">
+          <img src="./asset/icons/logo.png" alt="Logo StoryDay" width="40" height="40">
         </a>
         <ul id="nav-links">
           <li><a href="#/home">Home</a></li>
