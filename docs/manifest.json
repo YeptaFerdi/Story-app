@@ -9,7 +9,7 @@
   "offline_page": "./offline.html",
   "icons": [
     {
-      "src": "asset/icons/favicon.png",
+      "src": "asset/favicon.png",
       "sizes": "32x32",
       "type": "image/png"
     },
@@ -65,7 +65,7 @@
       "url": "./#/add",
       "icons": [
         {
-          "src": "asset/icons/favicon.png",
+          "src": "asset/favicon.png",
           "sizes": "32x32",
           "type": "image/png"
         },
@@ -83,7 +83,7 @@
       "url": "./#/mystory",
       "icons": [
         {
-          "src": "asset/icons/favicon.png",
+          "src": "asset/favicon.png",
           "sizes": "32x32",
           "type": "image/png"
         },
