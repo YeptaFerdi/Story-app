@@ -1,11 +1,11 @@
 import { AuthModel } from './AuthModel.js';
-import { StoryDB } from '../utils/story-db.js'; // pastikan path benar
+import { StoryDB } from '../utils/story-db.js';
 
 const BASE_API = 'https://story-api.dicoding.dev/v1';
 const LOCAL_STORAGE_KEY = 'cachedStories';
 
 export class StoryModel {
-  // Ambil data dari API atau fallback ke cache (localStorage)
+  // Ambil data dari API atau fallback ke cache (localStorage & IndexedDB)
   static async getStorys() {
     const token = AuthModel.getToken();
 
@@ -23,6 +23,7 @@ export class StoryModel {
         id: story.id,
         description: story.description || 'No Description',
         image: story.photoUrl,
+        imageBlob: null, 
         uploader: story.name || 'Anonim',
         createdAt: story.createdAt || '',
         location: {
@@ -39,19 +40,16 @@ export class StoryModel {
     } catch (error) {
       console.error('Failed to fetch data from API:', error.message);
 
-      // Ambil dari IndexedDB sebagai fallback selain localStorage
+      // Fallback ke IndexedDB dulu, lalu localStorage
       const cachedFromDB = await StoryDB.getAllStories();
-      if (cachedFromDB.length > 0) {
-        return cachedFromDB;
-      }
+      if (cachedFromDB.length > 0) return cachedFromDB;
 
-      // Kalau IndexedDB kosong, fallback ke localStorage
       const cached = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
       return cached;
     }
   }
 
-  // Tambah story ke API, cache localStorage, dan IndexedDB
+  // Tambah story ke API, lalu simpan ke localStorage dan IndexedDB
   static async addStory({ description, photo, lat, lon }) {
     const token = AuthModel.getToken();
 
@@ -79,15 +77,15 @@ export class StoryModel {
       const newStory = {
         id: result.story?.id || Date.now(),
         description,
-        image: '[uploaded]',
-        imageBlob: photo,
+        image: null,        
+        imageBlob: photo,    // Simpan blob agar bisa ditampilkan offline
         uploader: 'You',
         createdAt: new Date().toISOString(),
         location: {
           lat: lat || 0,
           lng: lon || 0,
         },
-        isLocal: true, // <- Tambahkan flag story lokal
+        isLocal: true,
       };
 
       const cached = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
