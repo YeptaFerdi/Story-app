@@ -37,6 +37,7 @@ export const MystoryView = {
       } else if (story.image && story.image !== '[uploaded]') {
         img.src = story.image;
       }
+      
       const content = document.createElement('div');
       content.className = 'story-content';
 
