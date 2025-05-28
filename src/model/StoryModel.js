@@ -22,7 +22,10 @@ export class StoryModel {
       const storys = stories.map((story) => ({
         id: story.id,
         description: story.description || 'No Description',
-        image: story.photoUrl,
+        image:
+          story.photoUrl && story.photoUrl !== '[uploaded]'
+            ? story.photoUrl
+            : null,
         imageBlob: null,
         uploader: story.name || 'Anonim',
         createdAt: story.createdAt || '',
@@ -78,7 +81,7 @@ export class StoryModel {
         id: result.story?.id || Date.now(),
         description,
         image: null,
-        imageBlob: photo, // Simpan blob agar bisa ditampilkan offline
+        imageBlob: photo,
         uploader: 'You',
         createdAt: new Date().toISOString(),
         location: {

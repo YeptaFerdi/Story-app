@@ -11,10 +11,7 @@ module.exports = merge(common, {
     port: 9000,
     hot: true,
     https: true,
-    historyApiFallback: {
-      index: '/index.html',
-      disableDotRule: true,
-    },
+    historyApiFallback: true,
     devMiddleware: {
       publicPath: '/',
     },

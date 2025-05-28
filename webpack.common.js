@@ -10,7 +10,7 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].[contenthash].js',
     clean: true,
-    publicPath: '/Story-app/', // ✅ Sesuaikan jika deploy di subfolder, kosongkan jika root
+    publicPath: '/Story-app/', // ⚠️ Pastikan sesuai dengan path deploy (ubah ke '/' jika root)
   },
   module: {
     rules: [
@@ -36,6 +36,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './index.html',
       inject: 'body',
+      favicon: './asset/favicon.png',
     }),
     new MiniCssExtractPlugin({
       filename: '[name].[contenthash].css',
@@ -48,13 +49,6 @@ module.exports = {
         {
           from: path.resolve(__dirname, 'node_modules/leaflet/dist/images'),
           to: 'leaflet/images',
-        },
-        {
-          from: path.resolve(
-            __dirname,
-            'node_modules/leaflet/dist/images/marker-icon-2x.png'
-          ),
-          to: 'leaflet/images/marker-icon-2x.png',
         },
       ],
     }),

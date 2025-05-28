@@ -34,10 +34,10 @@ export const MystoryView = {
         const objectUrl = URL.createObjectURL(story.imageBlob);
         img.src = objectUrl;
         img.onload = () => URL.revokeObjectURL(objectUrl); // Hindari memory leak
-      } else if (story.image) {
+      } else if (story.image && story.image !== '[uploaded]') {
         img.src = story.image;
       } else {
-        img.src = 'fallback.jpg'; // Tambahan fallback opsional
+        img.src = 'fallback.jpg'; // fallback opsional
       }
 
       const content = document.createElement('div');

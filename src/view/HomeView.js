@@ -36,6 +36,10 @@ export class HomeView {
       .map((story) => {
         let imageUrl = story.image;
 
+        if (story.image === '[uploaded]') {
+          imageUrl = 'fallback.jpg';
+        }
+
         if (story.imageBlob) {
           imageUrl = URL.createObjectURL(story.imageBlob);
         }
@@ -44,7 +48,7 @@ export class HomeView {
         <div class="story-card" tabindex="0" aria-label="Story by ${
           story.uploader
         } on ${story.createdAt}">
-          <img src="${imageUrl}" alt="Story photo" onload="this.dataset.blobUrl && URL.revokeObjectURL(this.dataset.blobUrl)" data-blob-url="${
+          <img src="${imageUrl}" alt="Story photo" onload="this.dataset.blobUrl && URL.revokeObjectURL(this.dataset.blobUrl)" data-blob-url="$${
           story.imageBlob ? imageUrl : ''
         }">
           <p>${story.description}</p>
