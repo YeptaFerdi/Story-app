@@ -32,54 +32,35 @@ export class HomeView {
   }
 
   renderStorys(storys) {
-    const storyList = storys;
-    const cards = storys.map((story) => {
-      let imageUrl = story.image;
-      let revokeUrl = null;
+    const storyList = storys
+      .map((story) => {
+        let imageUrl = story.image;
 
-      if (story.imageBlob) {
-        imageUrl = URL.createObjectURL(story.imageBlob);
-        revokeUrl = imageUrl;
-      }
-
-      const card = document.createElement('div');
-      card.className = 'story-card';
-      card.tabIndex = 0;
-      card.setAttribute(
-        'aria-label',
-        `Story by ${story.uploader} on ${story.createdAt}`
-      );
-
-      const img = document.createElement('img');
-      img.src = imageUrl;
-      img.alt = 'Story photo';
-      if (revokeUrl) {
-        img.onload = () =>
-          setTimeout(() => URL.revokeObjectURL(revokeUrl), 1000);
-      }
-
-      const desc = document.createElement('p');
-      desc.textContent = story.description;
-
-      const uploader = document.createElement('p');
-      uploader.innerHTML = `<strong>Uploader:</strong> ${story.uploader}`;
-
-      const date = document.createElement('p');
-      date.innerHTML = `<strong>Created:</strong> ${new Date(
-        story.createdAt
-      ).toLocaleString()}`;
-
-      card.appendChild(img);
-      card.appendChild(desc);
-      card.appendChild(uploader);
-      card.appendChild(date);
-
-      return card;
-    });
+        if (story.imageBlob) {
+          imageUrl = URL.createObjectURL(story.imageBlob);
+        }
+        const card = `
+        <div class="story-card" tabindex="0" aria-label="Story by ${
+          story.uploader
+        } on ${story.createdAt}">
+          <img src="${imageUrl}" alt="Story photo" onload="this.dataset.blobUrl && URL.revokeObjectURL(this.dataset.blobUrl)" data-blob-url="${
+          story.imageBlob ? imageUrl : ''
+        }">
+          <p>${story.description}</p>
+          <p><strong>Uploader:</strong> ${story.uploader}</p>
+          <p><strong>Created:</strong> ${new Date(
+            story.createdAt
+          ).toLocaleString()}</p>
+        </div>
+      `;
+        return card;
+      })
+      .join('');
 
     const container = document.getElementById('story-list-container');
-    container.innerHTML = '';
-    cards.forEach((card) => container.appendChild(card));
+    if (container) {
+      container.innerHTML = storyList;
+    }
   }
 
   showMap(storys) {
