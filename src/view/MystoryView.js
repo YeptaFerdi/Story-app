@@ -1,6 +1,16 @@
 // MystoryView.js
 import { StoryDB } from '../utils/story-db.js';
 
+function updateSavedStoryIdsAfterDelete(id) {
+  const ids = JSON.parse(localStorage.getItem('savedStoryIds')) || [];
+  const updated = ids.filter((savedId) => savedId !== id);
+  localStorage.setItem('savedStoryIds', JSON.stringify(updated));
+}
+
+function clearAllSavedStoryIds() {
+  localStorage.setItem('savedStoryIds', JSON.stringify([]));
+}
+
 export const MystoryView = {
   async render() {
     return `
@@ -14,9 +24,9 @@ export const MystoryView = {
 
   async afterRender() {
     const container = document.getElementById('story-list');
-    const stories = await StoryDB.getAllStories();
+    const stories = await StoryDB.getLocalStories();
 
-    container.innerHTML = ''; // Kosongkan kontainer dulu
+    container.innerHTML = '';
 
     if (!stories || stories.length === 0) {
       container.innerHTML = '<p>No stories saved offline.</p>';
@@ -37,7 +47,7 @@ export const MystoryView = {
       } else if (story.image && story.image !== '[uploaded]') {
         img.src = story.image;
       }
-      
+
       const content = document.createElement('div');
       content.className = 'story-content';
 
@@ -54,7 +64,8 @@ export const MystoryView = {
 
       deleteBtn.addEventListener('click', async () => {
         await StoryDB.deleteStory(story.id);
-        this.afterRender(); // Refresh ulang tampilan
+        updateSavedStoryIdsAfterDelete(story.id);
+        this.afterRender();
       });
 
       content.appendChild(deleteBtn);
@@ -67,21 +78,9 @@ export const MystoryView = {
       .getElementById('clear-all-btn')
       ?.addEventListener('click', async () => {
         await StoryDB.clearAllStories();
-        this.afterRender(); // Refresh ulang tampilan
+        clearAllSavedStoryIds();
+        this.afterRender();
       });
-  },
-
-  setupThemeToggle() {
-    const themeToggle = document.getElementById('theme-toggle');
-    if (themeToggle) {
-      themeToggle.addEventListener('click', () => {
-        document.body.classList.toggle('dark');
-        localStorage.setItem(
-          'theme',
-          document.body.classList.contains('dark') ? 'dark' : 'light'
-        );
-      });
-    }
   },
 
   redirectToLogin() {

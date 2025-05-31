@@ -1,3 +1,4 @@
+// model/StoryModel.js
 import { AuthModel } from './AuthModel.js';
 import { StoryDB } from '../utils/story-db.js';
 
@@ -5,7 +6,7 @@ const BASE_API = 'https://story-api.dicoding.dev/v1';
 const LOCAL_STORAGE_KEY = 'cachedStories';
 
 export class StoryModel {
-  // Ambil data dari API atau fallback ke cache (localStorage & IndexedDB)
+  // Ambil data dari API, fallback ke cache jika gagal
   static async getStorys() {
     const token = AuthModel.getToken();
 
@@ -36,15 +37,15 @@ export class StoryModel {
         isLocal: false,
       }));
 
+      // Simpan ke localStorage saja sebagai cache ringan
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(storys));
-      await Promise.all(storys.map((s) => StoryDB.saveStory(s)));
 
       return storys;
     } catch (error) {
-      console.error('Failed to fetch data from API:', error.message);
+      console.error('❌ Failed to fetch data from API:', error.message);
 
-      // Fallback ke IndexedDB dulu, lalu localStorage
-      const cachedFromDB = await StoryDB.getAllStories();
+      // Fallback ke IndexedDB, lalu localStorage
+      const cachedFromDB = await StoryDB.getLocalStories();
       if (cachedFromDB.length > 0) return cachedFromDB;
 
       const cached = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
@@ -52,7 +53,7 @@ export class StoryModel {
     }
   }
 
-  // Tambah story ke API, lalu simpan ke localStorage dan IndexedDB
+  // Tambah story baru via API & simpan ke IndexedDB lokal
   static async addStory({ description, photo, lat, lon }) {
     const token = AuthModel.getToken();
 
@@ -91,6 +92,7 @@ export class StoryModel {
         isLocal: true,
       };
 
+      // Simpan juga ke cache
       const cached = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
       cached.push(newStory);
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(cached));

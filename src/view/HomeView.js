@@ -1,6 +1,7 @@
 // views/HomeView.js
 import { StoryPresenter } from '../presenter/StoryPresenter.js';
 import { Spinner } from '../component/Spinner.js';
+import { StoryDB } from '../utils/story-db.js';
 
 export class HomeView {
   constructor() {
@@ -23,6 +24,10 @@ export class HomeView {
       return;
     }
 
+    // Optional: Sinkronisasi ID tersimpan saat awal load
+    const validIds = (await StoryDB.getLocalStories()).map((s) => s.id);
+    localStorage.setItem('savedStoryIds', JSON.stringify(validIds));
+
     Spinner.show();
     await this.presenter.loadStorysAndMap();
     Spinner.hide();
@@ -31,35 +36,74 @@ export class HomeView {
     this.setupThemeToggle();
   }
 
-  renderStorys(storys) {
-    const storyList = storys
-      .map((story) => {
-        let imageUrl = story.image;
-
-        if (story.imageBlob) {
-          imageUrl = URL.createObjectURL(story.imageBlob);
-        }
-        const card = `
-        <div class="story-card" tabindex="0" aria-label="Story by ${
-          story.uploader
-        } on ${story.createdAt}">
-          <img src="${imageUrl}" alt="Story photo" onload="this.dataset.blobUrl && URL.revokeObjectURL(this.dataset.blobUrl)" data-blob-url="${
-          story.imageBlob ? imageUrl : ''
-        }">
-          <p>${story.description}</p>
-          <p><strong>Uploader:</strong> ${story.uploader}</p>
-          <p><strong>Created:</strong> ${new Date(
-            story.createdAt
-          ).toLocaleString()}</p>
-        </div>
-      `;
-        return card;
-      })
-      .join('');
-
+  async renderStorys(storys) {
     const container = document.getElementById('story-list-container');
-    if (container) {
-      container.innerHTML = storyList;
+    if (!container) return;
+
+    container.innerHTML = '';
+
+    for (const story of storys) {
+      let imageUrl = story.image;
+
+      if (story.imageBlob) {
+        imageUrl = URL.createObjectURL(story.imageBlob);
+      }
+
+      const card = document.createElement('div');
+      card.className = 'story-card';
+      card.tabIndex = 0;
+      card.setAttribute(
+        'aria-label',
+        `Story by ${story.uploader} on ${story.createdAt}`
+      );
+
+      const img = document.createElement('img');
+      img.src = imageUrl;
+      img.alt = 'Story photo';
+      if (story.imageBlob) img.dataset.blobUrl = imageUrl;
+      img.onload = () => {
+        if (img.dataset.blobUrl) URL.revokeObjectURL(img.dataset.blobUrl);
+      };
+
+      const desc = document.createElement('p');
+      desc.textContent = story.description;
+
+      const uploader = document.createElement('p');
+      uploader.innerHTML = `<strong>Uploader:</strong> ${story.uploader}`;
+
+      const date = document.createElement('p');
+      date.innerHTML = `<strong>Created:</strong> ${new Date(
+        story.createdAt
+      ).toLocaleString()}`;
+
+      const saveBtn = document.createElement('button');
+      const updateButtonUI = (saved) => {
+        saveBtn.textContent = saved ? '🔄 Unsave' : '💾 Save Offline';
+      };
+
+      const isSaved = this.isStorySaved(story.id);
+      updateButtonUI(isSaved);
+
+      saveBtn.addEventListener('click', async () => {
+        const currentlySaved = this.isStorySaved(story.id);
+
+        if (currentlySaved) {
+          await StoryDB.deleteStory(story.id);
+          this.removeStoryId(story.id);
+        } else {
+          await StoryDB.saveStory({ ...story, isLocal: true });
+          this.saveStoryId(story.id);
+        }
+
+        updateButtonUI(!currentlySaved);
+      });
+
+      card.appendChild(img);
+      card.appendChild(desc);
+      card.appendChild(uploader);
+      card.appendChild(date);
+      card.appendChild(saveBtn);
+      container.appendChild(card);
     }
   }
 
@@ -135,6 +179,27 @@ export class HomeView {
         );
       });
     }
+  }
+
+  getSavedStoryIds() {
+    return JSON.parse(localStorage.getItem('savedStoryIds')) || [];
+  }
+
+  saveStoryId(id) {
+    const ids = this.getSavedStoryIds();
+    if (!ids.includes(id)) {
+      ids.push(id);
+      localStorage.setItem('savedStoryIds', JSON.stringify(ids));
+    }
+  }
+
+  removeStoryId(id) {
+    const ids = this.getSavedStoryIds().filter((savedId) => savedId !== id);
+    localStorage.setItem('savedStoryIds', JSON.stringify(ids));
+  }
+
+  isStorySaved(id) {
+    return this.getSavedStoryIds().includes(id);
   }
 
   showError(message) {

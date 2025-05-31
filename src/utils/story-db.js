@@ -1,3 +1,4 @@
+// utils/story-db.js
 import { openDB } from 'idb';
 
 const DB_NAME = 'story-db';
@@ -5,11 +6,9 @@ const STORE_NAME = 'stories';
 const DB_VERSION = 1;
 
 async function getDB() {
-  console.log('📂 Opening IndexedDB...');
   return openDB(DB_NAME, DB_VERSION, {
     upgrade(db) {
       if (!db.objectStoreNames.contains(STORE_NAME)) {
-        console.log('🆕 Creating object store:', STORE_NAME);
         db.createObjectStore(STORE_NAME, { keyPath: 'id' });
       }
     },
@@ -21,7 +20,7 @@ export const StoryDB = {
     try {
       const db = await getDB();
       await db.put(STORE_NAME, story);
-      console.log('✅ Story saved:', story);
+      console.log('✅ Story saved:', story.id);
     } catch (e) {
       console.error('❌ Failed to save story:', e);
     }
@@ -31,7 +30,6 @@ export const StoryDB = {
     try {
       const db = await getDB();
       const stories = await db.getAll(STORE_NAME);
-      console.log('📥 Retrieved stories:', stories);
       return stories;
     } catch (e) {
       console.error('❌ Failed to get stories:', e);
@@ -43,12 +41,20 @@ export const StoryDB = {
     try {
       const db = await getDB();
       const stories = await db.getAll(STORE_NAME);
-      const localStories = stories.filter((s) => s.isLocal);
-      console.log('📥 Retrieved local stories only:', localStories);
-      return localStories;
+      return stories.filter((s) => s.isLocal);
     } catch (e) {
       console.error('❌ Failed to get local stories:', e);
       return [];
+    }
+  },
+
+  async getStoryById(id) {
+    try {
+      const db = await getDB();
+      return await db.get(STORE_NAME, id);
+    } catch (e) {
+      console.error('❌ Failed to get story by id:', e);
+      return null;
     }
   },
 
