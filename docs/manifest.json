@@ -1,0 +1,98 @@
+{
+  "name": "Story Day App",
+  "short_name": "StoryDay",
+  "start_url": "/Story-app/",
+  "scope": "/Story-app/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#4A90E2",
+  "offline_page": "offline.html",
+  "icons": [
+    {
+      "src": "asset/favicon.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "asset/icons/logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "asset/screenshots/mobile.png",
+      "sizes": "750x1208",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "asset/screenshots/mobile2.png",
+      "sizes": "750x1208",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "asset/screenshots/mobile3.png",
+      "sizes": "750x1208",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "asset/screenshots/home.png",
+      "sizes": "2048x1208",
+      "type": "image/png",
+      "form_factor": "wide"
+    },
+    {
+      "src": "asset/screenshots/home2.png",
+      "sizes": "2048x1208",
+      "type": "image/png",
+      "form_factor": "wide"
+    },
+    {
+      "src": "asset/screenshots/home3.png",
+      "sizes": "2048x1208",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Add Story",
+      "short_name": "Add",
+      "description": "Add your own story.",
+      "url": "/Story-app/#/add",
+      "icons": [
+        {
+          "src": "asset/favicon.png",
+          "sizes": "32x32",
+          "type": "image/png"
+        },
+        {
+          "src": "asset/icons/logo.png",
+          "type": "image/png",
+          "sizes": "512x512"
+        }
+      ]
+    },
+    {
+      "name": "Mystory List",
+      "short_name": "MyStory",
+      "description": "See your own story.",
+      "url": "/Story-app/#/mystory",
+      "icons": [
+        {
+          "src": "asset/favicon.png",
+          "sizes": "32x32",
+          "type": "image/png"
+        },
+        {
+          "src": "asset/icons/logo.png",
+          "type": "image/png",
+          "sizes": "512x512"
+        }
+      ]
+    }
+  ]
+}
