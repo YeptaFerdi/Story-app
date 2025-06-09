@@ -3,7 +3,7 @@ const common = require('./webpack.common.js');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
-module.exports = merge(common, {
+module.exports = merge(common({ production: true }), {
   mode: 'production',
   devtool: 'source-map',
   optimization: {

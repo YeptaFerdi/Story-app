@@ -1,66 +1,86 @@
+// webpack.common.js
+
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const WorkboxPlugin = require('workbox-webpack-plugin');
 
-module.exports = {
-  entry: './src/index.js',
-  output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: '[name].[contenthash].js',
-    clean: true,
-    publicPath: '/Story-app/', // ⚠️ Pastikan sesuai dengan path deploy (ubah ke '/' jika root)
-  },
-  module: {
-    rules: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: 'babel-loader',
-      },
-      {
-        test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader'],
-      },
-      {
-        test: /\.(png|jpe?g|gif|svg)$/i,
-        type: 'asset/resource',
-        generator: {
-          filename: 'images/[name][ext]',
-        },
-      },
-    ],
-  },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: './index.html',
-      inject: 'body',
-      favicon: './asset/favicon.png',
-    }),
-    new MiniCssExtractPlugin({
-      filename: '[name].[contenthash].css',
-    }),
-    new CopyWebpackPlugin({
-      patterns: [
-        { from: 'public/manifest.json', to: 'manifest.json' },
-        { from: 'public/offline.html', to: 'offline.html' },
-        { from: 'asset', to: 'asset' },
+module.exports = (env = {}) => {
+  const isProduction = env.production === true;
+
+  // Jika di GitHub Pages atau production build, set publicPath ke "/Story-app/"
+  const publicPath = isProduction || process.env.HOST === 'github'
+    ? '/Story-app/'
+    : '/';
+
+  return {
+    entry: './src/index.js',
+
+    output: {
+      path: path.resolve(__dirname, 'dist'),
+      filename: '[name].[contenthash].js',
+      clean: true,
+      publicPath,
+    },
+
+    module: {
+      rules: [
         {
-          from: path.resolve(__dirname, 'node_modules/leaflet/dist/images'),
-          to: 'leaflet/images',
+          test: /\.js$/,
+          exclude: /node_modules/,
+          use: 'babel-loader',
+        },
+        {
+          test: /\.css$/i,
+          use: [MiniCssExtractPlugin.loader, 'css-loader'],
+        },
+        {
+          test: /\.(png|jpe?g|gif|svg)$/i,
+          type: 'asset/resource',
+          generator: {
+            filename: 'images/[name][ext]',
+          },
         },
       ],
-    }),
-    new WorkboxPlugin.InjectManifest({
-      swSrc: './src/sw.js',
-      swDest: 'sw.js',
-      maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
-    }),
-  ],
-  resolve: {
-    alias: {
-      '@leaflet': 'leaflet',
     },
-  },
+
+    plugins: [
+      new HtmlWebpackPlugin({
+        template: './index.html',
+        inject: 'body',
+        favicon: './asset/favicon.png',
+        publicPath,
+      }),
+
+      new MiniCssExtractPlugin({
+        filename: '[name].[contenthash].css',
+      }),
+
+      new CopyWebpackPlugin({
+        patterns: [
+          { from: 'public/manifest.json', to: 'manifest.json' },
+          { from: 'public/offline.html', to: 'offline.html' },
+          { from: 'asset', to: 'asset' },
+          {
+            from: path.resolve(__dirname, 'node_modules/leaflet/dist/images'),
+            to: 'leaflet/images',
+          },
+        ],
+      }),
+
+      isProduction &&
+        new WorkboxPlugin.InjectManifest({
+          swSrc: './src/sw.js',
+          swDest: 'sw.js',
+          maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
+        }),
+    ].filter(Boolean),
+
+    resolve: {
+      alias: {
+        '@leaflet': 'leaflet',
+      },
+    },
+  };
 };

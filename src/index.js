@@ -77,22 +77,22 @@ function setupSkipLink() {
   }
 }
 
-// Register Service Worker and initialize features
+// Service Worker registration
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    if (!navigator.serviceWorker.controller) {
-      navigator.serviceWorker
-        .register('/Story-app/sw.js')
-        .then((reg) => {
-          console.log('✅ Service Worker registered:', reg.scope);
-          initPush(); // Hanya dijalankan setelah SW aktif
-        })
-        .catch((err) =>
-          console.error('❌ Service Worker registration failed:', err)
-        );
-    }
+    const swPath = location.hostname === 'localhost' ? '/sw.js' : '/Story-app/sw.js';
+    navigator.serviceWorker
+      .register(swPath)
+      .then((reg) => {
+        console.log('✅ Service Worker registered:', reg.scope);
+        initPush();
+      })
+      .catch((err) => {
+        console.error('❌ Service Worker registration failed:', err);
+      });
   });
 }
+
 
 document.addEventListener('DOMContentLoaded', () => {
   applyTheme();

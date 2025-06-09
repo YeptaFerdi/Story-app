@@ -103,11 +103,22 @@ npm start
 ```
 
 ## Scripts
-
+// ▶️ Development server (localhost:9000)
+    `start-dev`
+    // 🏗 Production build for GitHub Pages (publicPath: /Story-app/)
 ✅ `npm run build`: Membuat build production menggunakan Webpack.
+    // 📦 Build untuk lokal (publicPath: /)
+✅  `nmp build:local`
+    // 🌍 Build khusus untuk GitHub Pages (fallback jika deploy manual)
+✅  `nmp build:github`
+    // 🚀 Serve folder dist (setelah build)
+✅ `npx serve --listen 9000 dist` : Menjalankan server HTTP pakai Servis Worker di port:9000 
+    // 💄 Code formatter check & write
 ✅ `npm run prettier`: Memeriksa format kode menggunakan Prettier.
 ✅ `npm run prettier:write`: Memformat ulang kode menggunakan Prettier.
-✅ `npx serve --listen 9000 dist` : Menjalankan server HTTP pakai Servis Worker di port:9000
+
+
+
 
 ### LINK
 

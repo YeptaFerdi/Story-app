@@ -2,7 +2,7 @@ const path = require('path');
 const { merge } = require('webpack-merge');
 const common = require('./webpack.common.js');
 
-module.exports = merge(common, {
+module.exports = merge(common({ production: false }), {
   mode: 'development',
   devtool: 'eval-source-map',
   devServer: {
@@ -10,7 +10,7 @@ module.exports = merge(common, {
     compress: true,
     port: 9000,
     hot: true,
-    https: true,
+    https: false,
     historyApiFallback: true,
     devMiddleware: {
       publicPath: '/',
