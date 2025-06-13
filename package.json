@@ -4,24 +4,20 @@
   "description": "A web application to manage stories",
   "homepage": "https://yeptaferdi.github.io/Story-app",
   "main": "index.js",
-
   "scripts": {
     "start-dev": "webpack serve --config webpack.dev.js --env production=false",
     "build": "webpack --config webpack.prod.js --env production=true",
-    "build:local": "webpack --config webpack.prod.js --env production=false",
-    "build:github": "HOST=github webpack --config webpack.prod.js --env production=true",
+    "build:netlify": "webpack --config webpack.prod.js --env production=true",
     "serve": "http-server ./dist",
     "prettier": "prettier --check .",
     "prettier:write": "prettier --write ."
   },
-
   "dependencies": {
     "axios": "^1.9.0",
     "core-js": "^3.19.1",
     "leaflet": "^1.9.4",
     "prettier": "^2.7.1"
   },
-
   "devDependencies": {
     "@babel/core": "^7.22.20",
     "@babel/preset-env": "^7.22.20",

@@ -1,1 +1,4 @@
-Link deploy:  https://yeptaferdi.github.io/Story-app/
+Link deploy github:  https://yeptaferdi.github.io/Story-app/
+
+Link Deploy netlify:
+https://story-day.netlify.app/

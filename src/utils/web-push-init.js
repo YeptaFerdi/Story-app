@@ -1,7 +1,12 @@
+import { AuthModel } from '../model/AuthModel';
+
 const VAPID_PUBLIC_KEY =
   'BCCs2eonMI-6H2ctvFaWg-UYdDv387Vno_bzUzALpB442r2lCnsHmtrx8biyPi_E-1fSGABK_Qs_GlvPoJJqxbk';
 
-const API_BASE = 'https://story-api.dicoding.dev/v1';
+const API_BASE =
+  location.hostname === 'localhost' && location.port === '9000'
+    ? '/api'
+    : 'https://story-api.dicoding.dev/v1';
 
 function urlBase64ToUint8Array(base64String) {
   const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
@@ -12,15 +17,39 @@ function urlBase64ToUint8Array(base64String) {
 
 async function sendSubscriptionToServer(subscription) {
   try {
-    const response = await fetch(`${API_BASE}/push-subscriptions`, {
+    const token = AuthModel.getToken();
+    if (!token || !token.includes('.')) {
+      throw new Error('No valid token found. Please login first.');
+    }
+
+    const { endpoint, keys } = subscription.toJSON();
+
+    const response = await fetch(`${API_BASE}/notifications/subscribe`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(subscription),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        endpoint,
+        keys: {
+          p256dh: keys.p256dh,
+          auth: keys.auth,
+        },
+      }),
     });
+
+    const contentType = response.headers.get('content-type');
+    if (!contentType?.includes('application/json')) {
+      const text = await response.text();
+      console.error('⚠️ Invalid content-type:', contentType);
+      console.error('📄 Response content:\n', text);
+      throw new Error('Server did not return JSON');
+    }
 
     const result = await response.json();
 
-    if (!response.ok || !result?.data?.success) {
+    if (!response.ok || result.error) {
       throw new Error(result.message || 'Failed to subscribe on server.');
     }
 
@@ -33,17 +62,27 @@ async function sendSubscriptionToServer(subscription) {
 
 async function sendUnsubscribeToServer(endpoint) {
   try {
-    const response = await fetch(`${API_BASE}/push-subscriptions`, {
+    const token = AuthModel.getToken();
+    if (!token || !token.includes('.')) {
+      throw new Error('No valid token found. Please login first.');
+    }
+
+    const response = await fetch(`${API_BASE}/notifications/subscribe`, {
       method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify({ endpoint }),
     });
 
-    if (!response.ok) {
-      throw new Error(`Server error: ${response.status}`);
+    const result = await response.json();
+
+    if (!response.ok || result.error) {
+      throw new Error(result.message || 'Failed to unsubscribe.');
     }
 
-    console.log('📭 Unsubscription sent to server.');
+    console.log('📭 Unsubscription sent to server:', result);
   } catch (error) {
     console.error('❌ Error unsubscribing on server:', error);
     alert('Failed to unsubscribe: ' + error.message);
@@ -63,7 +102,8 @@ export async function initPush() {
 
   try {
     const registration = await navigator.serviceWorker.ready;
-    const existingSubscription = await registration.pushManager.getSubscription();
+    const existingSubscription =
+      await registration.pushManager.getSubscription();
 
     if (existingSubscription) {
       console.log('🔔 Already subscribed.');
@@ -108,9 +148,17 @@ export async function unsubscribePush() {
 
 export async function sendPushNotification({ title, body, image, url }) {
   try {
+    const token = AuthModel.getToken();
+    if (!token || !token.includes('.')) {
+      throw new Error('No valid token found. Please login first.');
+    }
+
     const response = await fetch(`${API_BASE}/push-notifications/web-push`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify({ title, body, image, url }),
     });
 

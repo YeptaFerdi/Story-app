@@ -17,7 +17,7 @@ module.exports = merge(common({ production: false }), {
     },
     proxy: {
       '/api': {
-        target: 'https://story-api.dicoding.dev',
+        target: 'https://story-api.dicoding.dev/v1',
         changeOrigin: true,
         secure: false,
         pathRewrite: { '^/api': '' },

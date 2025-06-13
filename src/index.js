@@ -80,7 +80,7 @@ function setupSkipLink() {
 // Service Worker registration
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    const swPath = location.hostname === 'localhost' ? '/sw.js' : '/Story-app/sw.js';
+    const swPath = '/sw.js';
     navigator.serviceWorker
       .register(swPath)
       .then((reg) => {
@@ -92,7 +92,6 @@ if ('serviceWorker' in navigator) {
       });
   });
 }
-
 
 document.addEventListener('DOMContentLoaded', () => {
   applyTheme();

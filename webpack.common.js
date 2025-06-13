@@ -1,4 +1,4 @@
-// webpack.common.js
+// ✅ webpack.common.js
 
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -9,10 +9,7 @@ const WorkboxPlugin = require('workbox-webpack-plugin');
 module.exports = (env = {}) => {
   const isProduction = env.production === true;
 
-  // Jika di GitHub Pages atau production build, set publicPath ke "/Story-app/"
-  const publicPath = isProduction || process.env.HOST === 'github'
-    ? '/Story-app/'
-    : '/';
+  const publicPath = '/'; // always use root for Netlify
 
   return {
     entry: './src/index.js',

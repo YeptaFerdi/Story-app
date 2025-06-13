@@ -1,4 +1,4 @@
-// sw.js — Final untuk InjectManifest (Workbox)
+// ✅ sw.js — Final untuk InjectManifest (Workbox)
 
 import { precacheAndRoute } from 'workbox-precaching';
 import { registerRoute, setCatchHandler } from 'workbox-routing';
@@ -60,17 +60,17 @@ self.addEventListener('notificationclick', (event) => {
   const targetUrl = event.notification.data?.url || '/';
 
   event.waitUntil(
-    clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clientList) => {
-      // Fokuskan tab yang sudah ada jika tersedia
-      for (const client of clientList) {
-        if (client.url.includes(targetUrl) && 'focus' in client) {
-          return client.focus();
+    clients
+      .matchAll({ type: 'window', includeUncontrolled: true })
+      .then((clientList) => {
+        for (const client of clientList) {
+          if (client.url.includes(targetUrl) && 'focus' in client) {
+            return client.focus();
+          }
         }
-      }
-      // Jika tidak ada, buka tab baru
-      if (clients.openWindow) {
-        return clients.openWindow(targetUrl);
-      }
-    })
+        if (clients.openWindow) {
+          return clients.openWindow(targetUrl);
+        }
+      })
   );
 });

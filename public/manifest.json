@@ -1,8 +1,8 @@
 {
   "name": "Story Day App",
   "short_name": "StoryDay",
-  "start_url": "/Story-app/",
-  "scope": "/Story-app/",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#4A90E2",
@@ -62,13 +62,9 @@
       "name": "Add Story",
       "short_name": "Add",
       "description": "Add your own story.",
-      "url": "/Story-app/#/add",
+      "url": "/#/add",
       "icons": [
-        {
-          "src": "asset/favicon.png",
-          "sizes": "32x32",
-          "type": "image/png"
-        },
+        { "src": "asset/favicon.png", "sizes": "32x32", "type": "image/png" },
         {
           "src": "asset/icons/logo.png",
           "type": "image/png",
@@ -80,13 +76,9 @@
       "name": "Mystory List",
       "short_name": "MyStory",
       "description": "See your own story.",
-      "url": "/Story-app/#/mystory",
+      "url": "/#/mystory",
       "icons": [
-        {
-          "src": "asset/favicon.png",
-          "sizes": "32x32",
-          "type": "image/png"
-        },
+        { "src": "asset/favicon.png", "sizes": "32x32", "type": "image/png" },
         {
           "src": "asset/icons/logo.png",
           "type": "image/png",
